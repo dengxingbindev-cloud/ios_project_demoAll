@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 //布局相关
 class CameraWheelLayout: UICollectionViewFlowLayout {
-    
+    //呃 初始化布局
     override func prepare() {
         super.prepare()
         
@@ -29,6 +29,7 @@ class CameraWheelLayout: UICollectionViewFlowLayout {
         print("prepare")
     }
     
+    //在这里修改Cell布局
     override func layoutAttributesForElements(
         in rect: CGRect
     ) -> [UICollectionViewLayoutAttributes]? {
@@ -56,9 +57,20 @@ class CameraWheelLayout: UICollectionViewFlowLayout {
             let distance = abs(attribute.center.x - centerX)
             
             let maxDistance: CGFloat = 200
-            
             let limitedDistance = min(distance, maxDistance)
             
+            //计算垂直偏移距离
+            let radius: CGFloat = 250
+
+            let x = limitedDistance
+
+            let y = sqrt(radius * radius - x * x)
+
+            let offsetY = radius - y
+            
+            attribute.center.y += offsetY
+            
+            //对Cell进行放缩
             let scale = 1 - (limitedDistance / maxDistance) * 0.4
             
             attribute.transform = CGAffineTransform(scaleX: scale, y: scale)
@@ -72,6 +84,7 @@ class CameraWheelLayout: UICollectionViewFlowLayout {
         return attributes
     }
     
+    //滚动实时刷新
     override func shouldInvalidateLayout(
         forBoundsChange newBounds: CGRect
     ) -> Bool {
@@ -79,6 +92,8 @@ class CameraWheelLayout: UICollectionViewFlowLayout {
         return true
     }
     
+    
+    //自动吸附
     override func targetContentOffset(
         forProposedContentOffset proposedContentOffset: CGPoint,
         withScrollingVelocity velocity: CGPoint
