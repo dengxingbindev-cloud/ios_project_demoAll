@@ -84,16 +84,13 @@ class CameraWheelLayout: UICollectionViewFlowLayout {
         withScrollingVelocity velocity: CGPoint
     ) -> CGPoint {
 
-        print(proposedContentOffset.x)
-        
         guard let collectionView = collectionView else {
             return proposedContentOffset
         }
 
         let proposedCenterX =
-            proposedContentOffset.x
-            + collectionView.bounds.width / 2
-        
+            proposedContentOffset.x + collectionView.bounds.width / 2
+
         let targetRect = CGRect(
             origin: CGPoint(
                 x: proposedContentOffset.x,
@@ -101,13 +98,27 @@ class CameraWheelLayout: UICollectionViewFlowLayout {
             ),
             size: collectionView.bounds.size
         )
-        
+
         guard let attributes =
             layoutAttributesForElements(in: targetRect)
         else {
             return proposedContentOffset
         }
 
-        return proposedContentOffset
+        var minOffset = CGFloat.greatestFiniteMagnitude
+
+        for attribute in attributes {
+
+            let offset = attribute.center.x - proposedCenterX
+
+            if abs(offset) < abs(minOffset) {
+                minOffset = offset
+            }
+        }
+
+        return CGPoint(
+            x: proposedContentOffset.x + minOffset,
+            y: proposedContentOffset.y
+        )
     }
 }
