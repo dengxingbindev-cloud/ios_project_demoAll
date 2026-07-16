@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		625A53A130086E8000645276 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 625A53A030086E8000645276 /* SnapKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		625A537330086BDA00645276 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				625A53A130086E8000645276 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = project_demoAll;
 			packageProductDependencies = (
+				625A53A030086E8000645276 /* SnapKit */,
 			);
 			productName = project_demoAll;
 			productReference = 625A535C30086BD800645276 /* project_demoAll.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 625A535330086BD800645276;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				625A539F30086E8000645276 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 625A535D30086BD800645276 /* Products */;
 			projectDirPath = "";
@@ -591,6 +600,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		625A539F30086E8000645276 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		625A53A030086E8000645276 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 625A539F30086E8000645276 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 625A535430086BD800645276 /* Project object */;
 }
