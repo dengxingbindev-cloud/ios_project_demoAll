@@ -25,6 +25,21 @@ class CameraWheelCell1: UICollectionViewCell {
 
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func apply(
+        _ layoutAttributes: UICollectionViewLayoutAttributes
+    ) {
+        super.apply(layoutAttributes)
+
+        guard let attributes =
+            layoutAttributes as? CameraWheelLayoutAttributes
+        else {
+            return
+        }
+
+        updateAppearance(progress: attributes.progress)
+    }
+    
 }
 
 private extension CameraWheelCell1{
@@ -32,32 +47,48 @@ private extension CameraWheelCell1{
         
         addSubview(label)
 
-        label.snp.makeConstraints { maker in
-
-            maker.top.equalToSuperview()
+        label.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
 }
 
 extension CameraWheelCell1{
-    func configure(
-        with item: ZoomItem,
-        isSelected: Bool
+    func configure(with item: ZoomItem) {
+        label.text = item.value
+    }
+}
+
+extension CameraWheelCell1{
+    private func updateAppearance(
+        progress: CGFloat
     ) {
 
-        label.text = item.value
+        let scale = 0.8 + progress * 0.4
 
-        if isSelected {
+        let offsetY = (1 - progress) * 20
 
-            label.textColor = .systemYellow
-            label.font = .boldSystemFont(ofSize: 24)
+        let fontSize = 18 + progress * 8
 
-        } else {
+        transform = CGAffineTransform.identity
+            .translatedBy(x: 0, y: offsetY)
+            .scaledBy(x: scale, y: scale)
 
-            label.textColor = .lightGray
-            label.font = .systemFont(ofSize: 18)
+        label.font = .systemFont(
+            ofSize: fontSize,
+            weight: .semibold
+        )
 
-        }
+        label.alpha = 0.4 + progress * 0.6
+        
+        let value = progress * 0.6
+
+        label.textColor = UIColor(
+            red: 1,
+            green: value,
+            blue: 0,
+            alpha: 1
+        )
     }
 }
 

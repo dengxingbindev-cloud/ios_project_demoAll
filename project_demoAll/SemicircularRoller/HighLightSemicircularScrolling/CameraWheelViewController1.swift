@@ -95,10 +95,7 @@ extension CameraWheelViewController1:UICollectionViewDataSource{
             
         ) as! CameraWheelCell1
         
-        cell.configure(
-            with: item[indexPath.item],
-            isSelected: indexPath.item == selectedIndex
-        )
+        cell.configure(with: item[indexPath.item])
         
         return cell
         
@@ -109,41 +106,6 @@ extension CameraWheelViewController1:UICollectionViewDelegate{
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
         print("haha")
-    }
-
-}
-
-extension CameraWheelViewController1 {
-
-    func scrollViewDidEndDecelerating(
-        _ scrollView: UIScrollView
-    ) {
-
-        print("停止滚动")
-        
-        let center = CGPoint(
-            x: collectionView.bounds.midX + collectionView.contentOffset.x,
-            y: collectionView.bounds.midY
-        )
-
-        guard
-            let layout = collectionView.collectionViewLayout
-                as? CameraWheelLayout1,
-            let indexPath = layout.centeredIndexPath
-        else {
-            return
-        }
-
-        print("中心Cell:", indexPath.item)
-
-        let oldIndex = selectedIndex
-
-        selectedIndex = indexPath.item
-        
-        collectionView.reloadItems(at: [
-            IndexPath(item: oldIndex, section: 0),
-            IndexPath(item: selectedIndex, section: 0)
-        ])
     }
 
 }

@@ -5,6 +5,12 @@ class CameraWheelLayout1: UICollectionViewFlowLayout {
     
     var centeredIndexPath: IndexPath?
     
+    override class var layoutAttributesClass: AnyClass {
+
+        return CameraWheelLayoutAttributes.self
+
+    }
+    
     //呃 初始化布局
     override func prepare() {
         super.prepare()
@@ -29,7 +35,6 @@ class CameraWheelLayout1: UICollectionViewFlowLayout {
             right: inset
         )
 
-        print("prepare")
     }
     
     //在这里修改Cell布局
@@ -38,8 +43,10 @@ class CameraWheelLayout1: UICollectionViewFlowLayout {
     ) -> [UICollectionViewLayoutAttributes]? {
 
         // 先拿到系统计算好的 Attributes
-        guard let attributes = super.layoutAttributesForElements(in: rect)?
-            .compactMap({ $0.copy() as? UICollectionViewLayoutAttributes }) else {
+        guard let attributes =
+            super.layoutAttributesForElements(in: rect)?
+                .map({ $0.copy() as! CameraWheelLayoutAttributes })
+        else {
             return nil
         }
 
@@ -58,24 +65,10 @@ class CameraWheelLayout1: UICollectionViewFlowLayout {
             let distance = abs(attribute.center.x - centerX)
             
             let maxDistance: CGFloat = 200
-            let limitedDistance = min(distance, maxDistance)
-            
-            //计算垂直偏移距离
-            let radius: CGFloat = 250
 
-            let x = limitedDistance
-
-            let y = sqrt(radius * radius - x * x)
-
-            let offsetY = radius - y
+            let progress = 1 - min(distance / maxDistance, 1)
             
-            attribute.center.y += offsetY
-            
-            //对Cell进行放缩
-            let scale = 1 - (limitedDistance / maxDistance) * 0.4
-            
-            attribute.transform = CGAffineTransform(scaleX: scale, y: scale)
-
+            attribute.progress = progress
         }
         
         // 返回修改后的 Attributes
@@ -113,7 +106,7 @@ class CameraWheelLayout1: UICollectionViewFlowLayout {
         )
 
         guard let attributes =
-            layoutAttributesForElements(in: targetRect)
+            super.layoutAttributesForElements(in: targetRect)
         else {
             return proposedContentOffset
         }
