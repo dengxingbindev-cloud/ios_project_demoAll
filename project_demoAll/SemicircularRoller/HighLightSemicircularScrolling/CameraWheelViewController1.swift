@@ -12,6 +12,13 @@ class CameraWheelViewController1: UIViewController {
         ZoomItem(value: "10x")
     ]
     
+    private let indicatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemYellow
+        view.layer.cornerRadius = 1
+        return view
+    }()
+    
     let collectionView: UICollectionView = {
 
         let layout = CameraWheelLayout1()
@@ -57,11 +64,19 @@ class CameraWheelViewController1: UIViewController {
 extension CameraWheelViewController1{
     private func setupUI() {
         view.addSubview(collectionView)
+        view.addSubview(indicatorView)
+
+        indicatorView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(collectionView.snp.top).offset(-8)
+            make.width.equalTo(2)
+            make.height.equalTo(24)
+        }
 
         collectionView.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.left.right.equalToSuperview()
-            make.height.equalTo(80)
+            make.height.equalTo(100)
         }
     }
 }

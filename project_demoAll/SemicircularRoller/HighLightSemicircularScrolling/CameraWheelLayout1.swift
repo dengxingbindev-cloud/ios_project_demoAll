@@ -64,11 +64,17 @@ class CameraWheelLayout1: UICollectionViewFlowLayout {
 
             let distance = abs(attribute.center.x - centerX)
             
+            attribute.distance = distance
+            
             let maxDistance: CGFloat = 200
 
-            let progress = 1 - min(distance / maxDistance, 1)
+            let linear = 1 - min(distance / maxDistance, 1)
+
+            let progress = sin(linear * .pi / 2)
             
             attribute.progress = progress
+            
+            attribute.zIndex = Int(progress * 1000)
         }
         
         // 返回修改后的 Attributes

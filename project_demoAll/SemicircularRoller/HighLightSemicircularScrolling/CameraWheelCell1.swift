@@ -32,12 +32,15 @@ class CameraWheelCell1: UICollectionViewCell {
         super.apply(layoutAttributes)
 
         guard let attributes =
-            layoutAttributes as? CameraWheelLayoutAttributes
+        layoutAttributes as? CameraWheelLayoutAttributes
         else {
             return
         }
 
-        updateAppearance(progress: attributes.progress)
+        updateAppearance(
+            progress: attributes.progress,
+            distance: attributes.distance
+        )
     }
     
 }
@@ -60,15 +63,41 @@ extension CameraWheelCell1{
 }
 
 extension CameraWheelCell1{
+    
+    private func interpolate(
+        progress: CGFloat,
+        min: CGFloat,
+        max: CGFloat
+    ) -> CGFloat {
+        min + (max - min) * progress
+    }
+    
     private func updateAppearance(
-        progress: CGFloat
+        progress: CGFloat,
+
+        distance: CGFloat
+
     ) {
 
-        let scale = 0.8 + progress * 0.4
+        let scale = interpolate(
+            progress: progress,
+            min: 0.8,
+            max: 1.2
+        )
 
-        let offsetY = (1 - progress) * 20
+        let radius: CGFloat = 250
 
-        let fontSize = 18 + progress * 8
+        let x = min(distance, radius)
+
+        let y = sqrt(radius * radius - x * x)
+
+        let offsetY = radius - y
+
+        let fontSize = interpolate(
+            progress: progress,
+            min: 18,
+            max: 26
+        )
 
         transform = CGAffineTransform.identity
             .translatedBy(x: 0, y: offsetY)
@@ -79,7 +108,11 @@ extension CameraWheelCell1{
             weight: .semibold
         )
 
-        label.alpha = 0.4 + progress * 0.6
+        label.alpha = interpolate(
+            progress: progress,
+            min: 0.4,
+            max: 1.0
+        )
         
         let value = progress * 0.6
 

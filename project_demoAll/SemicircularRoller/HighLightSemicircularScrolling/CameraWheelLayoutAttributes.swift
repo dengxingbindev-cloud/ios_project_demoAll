@@ -3,6 +3,8 @@ import UIKit
 class CameraWheelLayoutAttributes: UICollectionViewLayoutAttributes {
 
     var progress: CGFloat = 0
+    
+    var distance: CGFloat = 0
 
     override func copy(with zone: NSZone? = nil) -> Any {
 
@@ -11,6 +13,7 @@ class CameraWheelLayoutAttributes: UICollectionViewLayoutAttributes {
             as! CameraWheelLayoutAttributes
 
         copied.progress = progress
+        copied.distance = distance
 
         return copied
     }
@@ -25,6 +28,10 @@ class CameraWheelLayoutAttributes: UICollectionViewLayoutAttributes {
         }
 
         if object.progress != progress {
+            return false
+        }
+        
+        if object.distance != distance {
             return false
         }
 
