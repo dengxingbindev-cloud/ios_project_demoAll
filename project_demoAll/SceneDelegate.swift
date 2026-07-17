@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let window = UIWindow(windowScene: windowScene)
         
-        let nav = UINavigationController(rootViewController: CameraWheelViewController0())
+        let nav = UINavigationController(rootViewController: CameraWheelViewController1())
         window.rootViewController = nav
         
         self.window = window
